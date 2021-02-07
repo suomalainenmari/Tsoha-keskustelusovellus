@@ -1,0 +1,18 @@
+<form action="/newsubject" method="POST" onsubmit="return check(this)">
+    Lisää uusi keskusteluaihe: <br>
+    <textarea name="aihe" rows="1" cols="40"></textarea>
+    <br>
+    <input type="submit" value="Lähetä">
+    <a href="/"> Takaisin etusivulle</a>
+    </form>
+
+    <script>
+        function check(form) {
+            if (form.aihe.value.length > 100) {
+                alert("Otsikko on liian pitkä");
+                return false;
+            return true;
+        }
+    }
+    
+    </script>

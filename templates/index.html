@@ -1,0 +1,28 @@
+<h2>Aiheet: </h2>
+{% for subject in subjects %}
+<a href="/{{subject[0]}}">{{subject[0]}}</a>
+<hr>
+{% endfor %}
+<hr>
+<h2>Kaikki viestit: </h2>
+Viestien määrä: {{ count }}
+<hr>
+
+{% for message in messages %}
+<i>Viesti:</i> {{ message[0] }}
+<p>
+<i>Lähettäjä: </i> {{ message[1] }}
+<p>
+<i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+{% endfor %}
+<hr>
+
+{% if session.user_id %}
+Olet kirjautunut sisään.
+<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+<a href="/newsubject">Lisää uusi keskusteluaihe</a>
+{% else %}
+<a href="/login">Kirjaudu sisään</a>
+<p>Sun tunnus on submari ja salasana 112233</p>
+{% endif %}

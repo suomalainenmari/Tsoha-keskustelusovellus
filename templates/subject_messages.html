@@ -1,0 +1,14 @@
+Viestien määrä: {{ count }}
+<hr>
+{% for subject_message in subject_messages %}
+<i>Viesti:</i> {{ subject_message[0] }}
+<p>
+<i>Lähettäjä: </i> {{ subject_message[1] }}
+<p>
+<i>Aika: </i> {{ subject_message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+<i>Aihe: </i>{{subject_name }}
+</p>
+<a href="/Aihevapaa/{{message_id}}">Vastaa</a>
+<hr>
+{% endfor %}

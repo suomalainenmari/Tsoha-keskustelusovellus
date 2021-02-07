@@ -1,0 +1,26 @@
+<h1>Lähetä uusi viesti</h1>
+<form action="/send" method="POST" onsubmit="return check(this)">
+<label for="aiheet">Valitse aihe:</label>
+<select name="subjects" id="subjects">
+    {% for subject in subjects %}
+    <option value="{{subject[0]}}">{{subject[0]}}</option>
+    {% endfor %}
+
+</select>
+Viesti (max 500 merkkiä): <br>
+<textarea name="content" rows="3" cols="40"></textarea>
+<br>
+<input type="submit" value="Lähetä">
+<a href="/"> Takaisin etusivulle</a>
+</form>
+
+<script>
+    function check(form) {
+        if (form.content.value.length > 500) {
+            alert("Viesti on liian pitkä");
+            return false;
+        }
+        return true;
+    }
+
+</script>
