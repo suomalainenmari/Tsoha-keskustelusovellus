@@ -9,6 +9,10 @@ Viestien määrä: {{ count }}
 <p>
 <i>Aihe: </i>{{subject_name }}
 </p>
+<hr>
+{% if session.user_id %}
 <a href="/Aihevapaa/{{message_id}}">Vastaa</a>
 <hr>
+{% endif %}
 {% endfor %}
+
