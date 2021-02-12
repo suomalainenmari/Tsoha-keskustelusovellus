@@ -1,12 +1,15 @@
 <h1>Lähetä uusi viesti</h1>
 <form action="/send" method="POST" onsubmit="return check(this)">
 <label for="aiheet">Valitse aihe:</label>
-<select name="subjects" id="subjects">
-    {% for subject in subjects %}
-    <option value="{{subject[0]}}">{{subject[0]}}</option>
+<select name="categories" id="categories">
+    {% for category in categories %}
+    <option value="{{category[1]}}">{{category[1]}}</option>
     {% endfor %}
 
 </select>
+<br>
+Viestin otsikko: <textarea name="subject" rows="1" cols="40"></textarea>
+<br>
 Viesti (max 500 merkkiä): <br>
 <textarea name="content" rows="3" cols="40"></textarea>
 <br>

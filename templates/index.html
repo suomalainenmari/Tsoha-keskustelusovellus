@@ -1,6 +1,17 @@
+<h1>Tervetuloa keskustelusovellukseen</h1>
+<hr>
+{% if session.user_id %}
+Olet kirjautunut sisään.
+<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+
+{% else %}
+<a href="/login">Kirjaudu sisään</a><br>
+Tai jos sinulla ei ole tunnusta, voit rekisteröityä <a href="/register">täältä</a>.
+{% endif %}
+<hr>
 <h2>Aiheet: </h2>
-{% for subject in subjects %}
-<a href="/{{subject[0]}}">{{subject[0]}}</a>
+{% for category in categories %}
+<a href="/{{category[0]}}">{{category[1]}}</a>
 <hr>
 {% endfor %}
 <h3>Kaikki viestit: </h3>
@@ -8,19 +19,26 @@ Viestien määrä: {{ count }}
 <hr>
 
 {% for message in messages %}
-<i>Viesti:</i> {{ message[0] }}
+<i>Aihe: </i> {{message[0]}}
 <p>
-<i>Lähettäjä: </i> {{ message[1] }}
+<i>Otsikko:</i> {{ message[1] }}
 <p>
-<i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<i>Viesti: </i> {{message[2]}}
 <p>
-{% endfor %}
+<i>Lähettäjä: </i> {{ message[3] }}
+<p>
+<i>Aika: </i> {{ message[4].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
 <hr>
+{% endfor %}
 
-{% if session.user_id %}
-Olet kirjautunut sisään.
-<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
-<a href="/newsubject">Lisää uusi keskusteluaihe</a>
-{% else %}
-<a href="/login">Kirjaudu sisään</a>
+
+
+{% if adminstatus %}
+
+<h3>Hei moderaattori!</h3>
+<a href="/newcategory">Lisää uusi keskusteluaihe</a>
+<br>
+<a href="/salainenalue">Moderaattorien salainen keskustelualue</a>
+Tämän pitäisi näkyä vaan admineille
 {% endif %}

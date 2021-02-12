@@ -1,0 +1,23 @@
+
+<h1>{{category_name }}</h1>
+
+Viestien määrä: {{ count }}
+<hr>
+{% for category_message in category_messages %}
+<i>Otsikko: </i> {{category_message[1]}}
+<p>
+<i>Viesti:</i> {{ category_message[2] }}
+<p>
+<i>Lähettäjä: </i> {{ category_message[3] }}
+<p>
+<i>Aika: </i> {{ category_message[6].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+
+</p>
+<hr>
+{% if session.user_id %}
+<a href="/Aihevapaa/{{message_id}}">Vastaa</a>
+<hr>
+{% endif %}
+{% endfor %}
+

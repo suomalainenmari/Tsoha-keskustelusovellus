@@ -1,10 +1,16 @@
-<form action="/newsubject" method="POST" onsubmit="return check(this)">
+
+<form action="/newcategory" method="POST" onsubmit="return check(this)">
     Lisää uusi keskusteluaihe: <br>
+    {% if adminstatus %}
     <textarea name="aihe" rows="1" cols="40"></textarea>
     <br>
     <input type="submit" value="Lähetä">
     <a href="/"> Takaisin etusivulle</a>
     </form>
+
+    {% else %}
+    Vain moderaattorit voivat lisätä uuden keskusteluaiheen.
+    {% endif %}
 
     <script>
         function check(form) {

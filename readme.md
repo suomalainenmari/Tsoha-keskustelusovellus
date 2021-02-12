@@ -5,11 +5,15 @@ https://tsoha-keskustelusovellus-ms.herokuapp.com/
 
 Sovelluksen tämänhetkinen tilanne:
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan ja tunnukset tarkistetaan.
-* Käyttäjien oikeuksia ei vielä määritelty.
-* Kaikki käyttäjät voivat toistaiseksi luoda keskusteluaiheita, samannimistä keskusteluaihetta ei voi luoda.
+* Käyttäjät voivat olla peruskäyttäjiä tai moderaattoreita
+    * Ainoastaan moderaattorit voivat lisätä uusia keskustelualueita
+    * Moderaattorit voivat antaa moderointioikeudet toiselle käyttäjälle
+    * Ainoastaan "superuser" (admin,admin) voi poistaa moderointioikeudet
+    * Superuser admin ei pysty poistamaan itseltään käyttöoikeutta
+* Samannimistä keskusteluaihetta ei voi luoda.
 * Keskusteluaiheille ja viestin pituuksille määritelty maksimipituus.
 * Viestejä ei voi vielä poistaa.
-* Kaikki viestit listattu etusivulla, keskusteluaiheen viesteihin pääsee ylhäällä olevasta linkistä, tällä hetkellä vaan "Aihe vapaa"-viesteihin, aiheen mukaisten sivujen luonti vielä vaiheessa.
+* Kaikki viestit listattu etusivulla, keskusteluaiheen viesteihin pääsee ylhäällä olevasta linkistä
 
 
 Sovelluksen haluttuja toiminnallisuuksia:

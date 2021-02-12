@@ -1,8 +1,23 @@
  
-<form action="/register" method="post">
+<form action="/register" method="post" onsubmit="return check (this)">
     Tunnus: <input type="text" name="username">
     <p>
     Salasana: <input type="password" name="password">
     <p>
     <input type="submit" value="Luo tunnus">
     </form>
+
+    <script>
+        function check(form) {
+            if (form.username.value.length <3) {
+                alert("Käyttäjätunnuksen on oltava vähintään 3 merkkiä pitkä");
+                return false;
+            }
+            if (form.password.value.length<3){
+                alert("Salasanan on oltava vähintään 3 merkkiä pitkä");
+                return false;
+            }
+            return true;
+        }
+    
+    </script>

@@ -1,4 +1,4 @@
-<form action="/login" method="post">
+<form action="/login" method="post" onsubmit="return check (this)">
 Tunnus: <input type="text" name="username">
 <p>
 Salasana: <input type="password" name="password">
@@ -6,3 +6,19 @@ Salasana: <input type="password" name="password">
 <input type="submit" value="Kirjaudu">
 </form>
 Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register"> tästä</a>
+
+<script>
+    function check(form) {
+        if (form.username.value.length<1) {
+            alert("Syötä käyttäjätunnus");
+            return false;
+        }
+        if (form.password.value.length<1){
+            alert("Syötä salasana");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+

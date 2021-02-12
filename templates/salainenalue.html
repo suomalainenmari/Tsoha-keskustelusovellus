@@ -1,0 +1,31 @@
+<h1>Salainen alue</h1>
+{% if adminstatus %}
+Kaikki käyttäjät löytyvät täältä:
+<hr>
+<p>
+{%for user in users%}
+<p>
+<i>Käyttäjätunnus:</i> {{user[1]}}
+<p>
+<i>Moderaattori: </i>{{user[2]}}
+{% if user[2]==None %}
+
+<form action="/salainenalue" method="post">
+<input type="hidden" value="{{user[0]}}" name="id">
+<input type="submit" name= "action" value="Lisää moderaattoriksi"> 
+</form> 
+{% endif %}
+<hr>
+{% endfor %}
+{% if session.user_id==5 %}
+<a href="/supersalainenalue">Täältä käyttöoikeuksien poistoon</a> Tämän kentän näkee vaan käyttäjä admin (id=5)
+<br>
+{% endif %}
+<a href="/">Tästä pääset takaisin etusivulle</a> Tämän näkevät kaikki moderaattorit
+<br>
+{% else %}
+Ohops, täällä ei taida olla sinulle mitään..
+<a href="/">Tästä pääset takaisin etusivulle</a> Tämän näkevät ei-moderaattorit
+{% endif %}
+
+
