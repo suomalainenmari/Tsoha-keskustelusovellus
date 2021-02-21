@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="..//static/thread.css">
+    <title>{{category_name}}</title>
+</head>
+<body>
+<!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
+
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+
+    {% endif %}
+
+
+    <h1>{{category_name }}</h1>
+    <!--Kyseessä olevan kategorian nimi otsikkona ja kaikki viestiketjut jotka kuuluvat kyseiseen kategoriaan listattuna alla-->
+    <hr>
+    {% for category_thread in category_threads %}
+    <b>{{category_thread[1]}}</b> 
+    <p>
+    {{ category_thread[2] }}
+    <p>
+    <b>Sent by: </b> {{ category_thread[4] }}
+    <p>
+    <b>Sent at: </b> {{ category_thread[6].strftime("%Y-%m-%d %H:%M:%S") }}
+    <p>
+    <a href="/{{category_thread[0]}}/{{category_thread[3]}}" style="color: #D1E8E2;">Open thread</a>
+    <hr>
+    {% endfor %}
+
+    {% if session.user_id %}
+    <!--Jos kyseessä kirjautunut käyttäjä, pääsee lisäämään lomakkeella uuden viestiketjun kategoriaan-->
+    <div class="form">
+        <h3>Create a new thread to current category</h3>
+        <form action="/send" method="POST" onsubmit="return check(this)">
+        <label for="aiheet">Choose topic: </label><br>
+        <select name="categories" id="categories">
+            <option value="{{category_name}}">{{category_name}}</option>
+        </select>
+        <br>
+        Thread heading:<br>
+         <textarea name="subject" rows="1" cols="70" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+        <br>
+        Message (max 500 characters): <br>
+        <textarea name="content" rows="3" cols="70" style="background-color: #D1E8E2;"style="color: #2C3531;"></textarea></textarea>
+        <br>
+        <input type="submit" value="Create">
+        <br>
+        <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
+        </form>
+        </div>
+        {% else %}
+        <!--Jos käyttäjä ei ole kirjautunut, ei viestiä voi lähettää, vaan kerrotaan että tulee olla kirjautunut-->
+        <h3>You need to be logged in to create a thread</h3>
+        {% endif %}
+        
+        <!--Tarkistetaan alla skriptissä ettei viestin sisältö ole liian pitkä-->
+        <script>
+        
+            function check(form) {
+                if (form.content.value.length > 500) {
+                    alert("Message is too long");
+                    return false;
+                }
+                return true;
+            }
+        
+        </script>
+    
+</body>
+</html>
+
+
+
+

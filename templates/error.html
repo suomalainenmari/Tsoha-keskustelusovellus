@@ -1,3 +1,51 @@
-Virhe: {{message}}
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<a href="/"> Takaisin etusivulle</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/thread.css">
+    <title>Error</title>
+</head>
+<body>
+    <!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
+
+        <div class= "home_header">
+            <h1>FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+    
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+    
+    {% endif %}
+<!--Parametrina saatu virheviesti renderöidään ja jätetään linkki etusivulle palaamiseen-->
+    Error: {{message}}
+    <a href="/home"style="color: #D1E8E2;"> Back to homepage</a>
+
+
+    
+</body>
+</html>

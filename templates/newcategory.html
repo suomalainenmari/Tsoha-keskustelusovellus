@@ -1,24 +1,95 @@
 
-<form action="/newcategory" method="POST" onsubmit="return check(this)">
-    Lisää uusi keskusteluaihe: <br>
-    {% if adminstatus %}
-    <textarea name="aihe" rows="1" cols="40"></textarea>
-    <br>
-    <input type="submit" value="Lähetä">
-    <a href="/"> Takaisin etusivulle</a>
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <title>New category</title>
+    <!--Lomakkeen tyylittelyä-->
+    <style>
+        input[type=submit] {
+         width: 40%;
+         
+         background-color: #D9B08C;;
+         color: #2C3531;
+         padding: 14px 20px;
+         margin: 8px 0;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         font-size: 16;
+         
+       }
+   
+       input[type=submit]:hover {
+         background-color: #b39173;
+       }
+   </style>
+</head>
+<body>
+    <!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
 
-    {% else %}
-    Vain moderaattorit voivat lisätä uuden keskusteluaiheen.
-    {% endif %}
-
-    <script>
-        function check(form) {
-            if (form.aihe.value.length > 100) {
-                alert("Otsikko on liian pitkä");
-                return false;
-            return true;
-        }
-    }
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
     
-    </script>
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+    
+    {% endif %}
+    <!--Tarkistetaan onko käyttäjä moderaattori, mikäli on niin näytetään lomake jolla voi lisätä kategorian-->
+    {% if adminstatus %}
+    <div class="form">
+    <form action="/newcategory" method="POST" onsubmit="return check(this)">
+        <h3>Add a new category</h3>
+        Category name: <br>
+        
+        <textarea name="aihe" rows="1" cols="70" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+        <br>
+        <input type="submit" value="Add category">
+        <p>
+        <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
+        </form>
+    
+        {% else %}
+        Only moderators can add a new category. So please, go back to <a href="/home" style="color: #D1E8E2;" > homepage</a>
+        {% endif %}
+    
+    </div>
+    
+    <!--Tarkistetaan kategorian otsikon pituus-->
+        <script>
+            function check(form) {
+                if (form.aihe.value.length > 100) {
+                    alert("Otsikko on liian pitkä");
+                    return false;
+                return true;
+            }
+        }
+        
+        </script>
+    
+</body>

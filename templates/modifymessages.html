@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../../static/login.css">
+    <title>Modify your message</title>
+</head>
+<body>
+    <!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
+
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+    
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+    
+    {% endif %}
+
+                <h2>{{category_name}}</h2>
+      <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
+        <h3>{{ starting_thread[1] }}</h3>
+    
+        {{ starting_thread[2] }}<br>
+        Sent by:{{ starting_thread[4] }}
+        <hr>
+        {% for thread_message in thread_messages %}
+        <b> {{thread_message[0]}} </b>
+        <p>
+        {{ thread_message[1] }}
+        <p>
+        Sent by: {{ thread_message[3] }}
+        <p>
+        Sent at: {{ thread_message[5].strftime("%Y-%m-%d %H:%M:%S") }}
+        <p>
+
+       
+        <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään muokkaus-kenttä ja -painike, josta viestiä voi muokata. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
+        {% if thread_message[4]==session.user_id %}
+            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" method="post">
+                Set message as:
+                <br>
+                <textarea name="viesti" rows="4" cols="60" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+                <br>
+                <input type="hidden" value="{{thread_message[2]}}" name="message_id">
+                <input type="submit" name= "action" value="Modify message">
+            </form>
+            <br>
+            <!--Myös näytetään linkki missä pääsee poistamaan viestin (mikäli on itse sen lähettänyt)-->
+            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" style="color: #D1E8E2;">Delete your message here</a>
+        {% endif %}
+        <hr>
+
+        {% endfor %}
+      
+        
+            
+                    <a href="/home" style="color: #D1E8E2;"> Takaisin etusivulle</a>
+                    <br>
+                    <a href="/{{starting_thread[6]}}" style="color: #D1E8E2;">Palaa edelliselle sivulle</a>
+                   
+           
+               
+     
+    
+        
+    
+</body>
+</html>

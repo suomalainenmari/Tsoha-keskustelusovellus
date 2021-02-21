@@ -1,29 +1,125 @@
-<h1>Lähetä uusi viesti</h1>
-<form action="/send" method="POST" onsubmit="return check(this)">
-<label for="aiheet">Valitse aihe:</label>
-<select name="categories" id="categories">
-    {% for category in categories %}
-    <option value="{{category[1]}}">{{category[1]}}</option>
-    {% endfor %}
-
-</select>
-<br>
-Viestin otsikko: <textarea name="subject" rows="1" cols="40"></textarea>
-<br>
-Viesti (max 500 merkkiä): <br>
-<textarea name="content" rows="3" cols="40"></textarea>
-<br>
-<input type="submit" value="Lähetä">
-<a href="/"> Takaisin etusivulle</a>
-</form>
-
-<script>
-    function check(form) {
-        if (form.content.value.length > 500) {
-            alert("Viesti on liian pitkä");
-            return false;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <title>New thread</title>
+    <!--lomakkeen tyylittelyä-->
+    <style>
+        input[type=text], select {
+          width: 40%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          display: inline-block;
+          border: 1px solid #D1E8E2;
+          border-radius: 4px;
+          box-sizing: border-box;
+          color:#2C3531;
+          background-color: #D1E8E2;
+          font-size: 16;
+    
         }
-        return true;
-    }
+        
+        input[type=submit] {
+          width: 40%;
+          
+          background-color: #D9B08C;;
+          color: #2C3531;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16;
+          
+        }
+        
+        input[type=submit]:hover {
+          background-color: #b39173;
+        }
+    
+        </style>
+    
+</head>
+<body>
+<!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
 
-</script>
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+    
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+    
+    {% endif %}
+    
+    <!--Jos kirjautunut käyttäjä, pääsee luomaan uuden viestiketjun haluamaansa kategoriaan-->
+    {% if session.user_id %}
+    
+    <div class="form">
+    <h3>Create a new thread</h3>
+    <form action="/send" method="POST" onsubmit="return check(this)">
+    <label for="aiheet">Choose topic: </label><br>
+    
+    <select name="categories" id="categories">
+        {% for category in categories %}
+        <option value="{{category[1]}}">{{category[1]}}</option>
+        {% endfor %}
+    
+    </select>
+    <br>
+    Thread heading:<br>
+     <textarea name="subject" rows="1" cols="70" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+    <br>
+    Message (max 500 characters): <br>
+    <textarea name="content" rows="3" cols="70" style="background-color: #D1E8E2;"style="color: #2C3531;"></textarea></textarea>
+    <br>
+    <input type="submit" value="Create">
+    <br>
+    <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
+    </form>
+    </div>
+    {% else %}
+    <!--Mikäli käyttäjä ei ole kirjautunut, ilmoitetaan ettei viestiketjua voi luoda-->
+    <h3>You need to be logged in to create a thread</h3>
+    {% endif %}
+    
+    <!--tarkistetaan viestin pituus-->
+    <script>
+        function check(form) {
+            if (form.content.value.length > 500) {
+                alert("Message is too long");
+                return false;
+            }
+            return true;
+        }
+    
+    </script>
+    
+</body>
+</html>
+
+

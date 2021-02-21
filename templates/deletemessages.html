@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../static/thread.css">
-    <title>Send a message</title>
+    <link rel="stylesheet" type="text/css" href="../../../static/login.css">
+    <title>Delete your message</title>
 </head>
 <body>
     <!-- Ylävalikon ja nimibannerin asettelu-->
@@ -17,7 +17,7 @@
                 <p>You are logged in.</p>
             {% endif %}
         </div>
-
+    
              <div class="topbar">
             {% if session.user_id %}
                 <ul>
@@ -37,19 +37,16 @@
                 </ul>
                 </div>
         </div>
-
+    
     {% endif %}
-    
-    
-    
-    <h2>{{category_name}}</h2>
-        <div class="starting_thread">
+
+                <h2>{{category_name}}</h2>
+    <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
         <h3>{{ starting_thread[1] }}</h3>
     
         {{ starting_thread[2] }}<br>
         Sent by:{{ starting_thread[4] }}
         <hr>
-    </div>
         {% for thread_message in thread_messages %}
         <b> {{thread_message[0]}} </b>
         <p>
@@ -59,65 +56,33 @@
         <p>
         Sent at: {{ thread_message[5].strftime("%Y-%m-%d %H:%M:%S") }}
         <p>
-        <!--Jos viesti on oma tekemä näkee linkit viestin muokkaukseen tai poistoon-->
-        {% if thread_message[4]==session.user_id %}
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" style="color: #D1E8E2;">Delete your message here</a>
-            <br>
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" style="color: #D1E8E2;">Modify your message here</a>
 
-            {% endif %}
+       
+        <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään  delete-painike, josta viestin voi poistaa. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
+        {% if thread_message[4]==session.user_id %}
+            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" method="post">
+                <input type="hidden" value="{{thread_message[2]}}" name="message_id">
+                <input type="submit" name= "action" value="Delete message">
+            </form>
+            <br>
+            <!--Myös näytetään linkki missä pääsee muokkaamaan viestiä (mikäli on itse sen lähettänyt)-->
+            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" style="color: #D1E8E2;">Modify your message here</a>
+        {% endif %}
         <hr>
 
         {% endfor %}
-    
-       
+      
         
-            <!--Lomake viestin lisäämisestä ketjuun näytetään mikäli henkilö on kirjautunut-->
-                <div class="form">
-                    {% if session.user_id %}
-                
-                    <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}" method="POST" onsubmit="return check(this)">
-                    Comment
-                    <br>
-                    Message heading:<br> <textarea name="subject" rows="1" cols="40"></textarea>
-                    <br>
-                    Message (max 500 char.): <br>
-                    <textarea name="content" rows="3" cols="40"></textarea>
-                    <br>
-                    <input type="submit" name="action" value="Comment">
-                    </form>
+           
                     <a href="/home" style="color: #D1E8E2;"> Takaisin etusivulle</a>
                     <br>
                     <a href="/{{starting_thread[6]}}" style="color: #D1E8E2;">Palaa edelliselle sivulle</a>
-                    {% else %}
-                    <h3 style="text-align: center;">You need to be logged in to comment</h3>
-                    {% endif %}
-                
-                </div>
-     
+                   
            
-       
-    <!--Tarkistetaan lähetettävän viestin sisältö-->
-        <script>
-            function check(form) {
-                if (form.content.value.length > 500) {
-                    alert("Viesti on liian pitkä");
-                    return false;
-                }
-                if (form.subject.value.length>40){
-                    alert("Otsikko on liian pitkä");
-                    return false;
-                }
-                return true;
-            }
-        
-        </script>
+               
+     
     
+        
     
 </body>
 </html>
-
-
-
-   
-

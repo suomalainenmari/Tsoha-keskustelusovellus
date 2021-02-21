@@ -1,44 +1,96 @@
-<h1>Tervetuloa keskustelusovellukseen</h1>
-<hr>
-{% if session.user_id %}
-Olet kirjautunut sisään.
-<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
+    <title>Home</title>
+</head>
+<body>
+    <!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
 
-{% else %}
-<a href="/login">Kirjaudu sisään</a><br>
-Tai jos sinulla ei ole tunnusta, voit rekisteröityä <a href="/register">täältä</a>.
-{% endif %}
-<hr>
-<h2>Aiheet: </h2>
-{% for category in categories %}
-<a href="/{{category[0]}}">{{category[1]}}</a>
-<hr>
-{% endfor %}
-<h3>Kaikki viestit: </h3>
-Viestien määrä: {{ count }}
-<hr>
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+    
 
-{% for message in messages %}
-<i>Aihe: </i> {{message[0]}}
-<p>
-<i>Otsikko:</i> {{ message[1] }}
-<p>
-<i>Viesti: </i> {{message[2]}}
-<p>
-<i>Lähettäjä: </i> {{ message[3] }}
-<p>
-<i>Aika: </i> {{ message[4].strftime("%Y-%m-%d %H:%M:%S") }}
-<p>
-<hr>
-{% endfor %}
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            </div>
+        
+
+            {% else %}
+                <div class="topbar">
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                </ul>
+                </div>
+        </div>
+
+    {% endif %}
+    <div class="sidebar">
+        {% for category in categories %}
+            <a href="/{{category[0]}}">{{category[1]}}</a>
+        {% endfor %}
+    </div>
+
+
+</div>
+
+
+<!-- Listattu viestiketjut uusimmasta vanhimpaan-->
+<div class="listedthreads">
+    <div class="row">
+        <div class="col-8">
+            <h3>Recent threads: </h3>
+            <hr>
+
+            {% for thread in threads %}
+            {{thread[0]}}
+            <p>
+            {{ thread[2] }}
+            <p>
+            {{thread[3]}}
+            <p>
+            Sent:  {{ thread[1] }}
+            <p>
+            Sent at: {{ thread[4].strftime("%Y-%m-%d %H:%M:%S") }}
+            <p>
+            <hr>
+            {% endfor %}
+        </div>
+<!--Viestien etsimistä varten oleva formi-->
+        <div class="col-4">
+        <h3> Search for messages</h3>
+        <form action="/searchresults" method="post">
+            <br>
+            <textarea name="viesti" rows="2" cols="50" style="background-color: #D1E8E2;" style="color: #2C3531;">Hakutoiminnallisuus ei vielä käytössä</textarea>
+            <br>
+            <input type="submit" name= "action" value="Search">
+        </form>
+        </div>
+</div>
+
+</div>
+
+
+</body>
+</html>
 
 
 
-{% if adminstatus %}
-
-<h3>Hei moderaattori!</h3>
-<a href="/newcategory">Lisää uusi keskusteluaihe</a>
-<br>
-<a href="/salainenalue">Moderaattorien salainen keskustelualue</a>
-Tämän pitäisi näkyä vaan admineille
-{% endif %}

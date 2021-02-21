@@ -1,23 +1,84 @@
- 
-<form action="/register" method="post" onsubmit="return check (this)">
-    Tunnus: <input type="text" name="username">
-    <p>
-    Salasana: <input type="password" name="password">
-    <p>
-    <input type="submit" value="Luo tunnus">
-    </form>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" type="text/css" href="../static/login.css">
 
-    <script>
-        function check(form) {
-            if (form.username.value.length <3) {
-                alert("Käyttäjätunnuksen on oltava vähintään 3 merkkiä pitkä");
-                return false;
-            }
-            if (form.password.value.length<3){
-                alert("Salasanan on oltava vähintään 3 merkkiä pitkä");
-                return false;
-            }
-            return true;
-        }
+     <title>Register</title>
+ </head>
+ <body>
+<!-- Ylävalikon ja nimibannerin asettelu-->
+
+<div class="inbody">
+
+    <div class= "home_header">
+        <h1>Welcome to FactForum</h1>
+        {% if session.user_id %}
+            <p>You are logged in.</p>
+        {% endif %}
+    </div>
+
+         <div class="topbar">
+        {% if session.user_id %}
+            <ul>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/home">Home</a></li> 
+            <li><a href="/new">Create a thread</a></li>
+            {% if adminstatus %}
+                <li><a href="/newcategory">Add a category</a></li>
+                <li><a href="/salainenalue">Moderator site</a></li>
+            {% endif %}
+            </ul>
+        {% else %}
+            <ul>
+            <li><a href="/login">Log in</a></li>
+            <li><a href="/register">Register</a></li>    
+            <li><a href="/home">Home</a></li> 
+            </ul>
+            </div>
+    </div>
+    {% endif %}
+
+    <!--Lomake rekisteröitymistä varten. Mikäli käyttäjä jo kirjautunut, näytetään linkki kotisivulle.-->
+{% if session.user_id %}
+<h2>You are already logged in</h2>
+<a href="/home" style="color: #D1E8E2;">homepage</a>
+{% else %}
+<div class="form">
+
+    <form action="/register" method="post" onsubmit="return check (this)">
+        Username: <input type="text" name="username">
+        <p>
+        Password: <input type="password" name="password">
+        <p>
+        <input type="submit" value="Create an account">
+        </form>
+        <p>
+            Already have an account? Then go to <a href="/login" style="color: #D1E8E2;">login</a>!
+        </p>
+        Or you can always go back to <a href="/home" style="color: #D1E8E2;">homepage</a>
     
-    </script>
+    </div>
+{% endif %}
+
+
+    <!--Tarkistetaan tunnusten pituudet-->
+        <script>
+            function check(form) {
+                if (form.username.value.length <3) {
+                    alert("Käyttäjätunnuksen on oltava vähintään 3 merkkiä pitkä");
+                    return false;
+                }
+                if (form.password.value.length<3){
+                    alert("Salasanan on oltava vähintään 3 merkkiä pitkä");
+                    return false;
+                }
+                return true;
+            }
+        
+        </script>
+     
+ </body>
+ </html>

@@ -2,6 +2,7 @@ from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
+#Tarkistaa käyttäjän tiedot
 def login(username,password):
     sql= "SELECT password, id FROM user_account WHERE username=:username"
     result= db.session.execute(sql,{"username":username})
@@ -16,9 +17,11 @@ def login(username,password):
         else:
             return False
 
+#Uloskirjautuminen
 def logout():
     del session["user_id"]
 
+#Rekisteröinti, lisää käyttäjän tiedot tietokantaan
 def register(username,password):
     hash_value=generate_password_hash(password)
     try:
@@ -29,16 +32,18 @@ def register(username,password):
         return False
     return login(username,password)
 
+#Palauttaa sessiota käyttävän käyttäjän id:n
 def user_id():
     return session.get("user_id",0)
 
+#Palauttaa kaikki käyttäjät
 def get_users():
     sql="SELECT id, username, is_admin FROM user_account"
     result=db.session.execute(sql)
     return result.fetchall()
     
 
-
+#Tarkistaa moderaattorioikeuden
 def get_adminrole():
     user_id= session.get("user_id",0)
     sql="SELECT is_admin FROM user_account WHERE id=:user_id" 
@@ -52,7 +57,7 @@ def get_adminrole():
     except:
         return False
        
-
+#Lisää moderaattorioikeuden
 def set_adminrole(user_account_id):
     try:
         sql="UPDATE user_account SET is_admin=TRUE WHERE id=:user_account_id;"
@@ -62,6 +67,7 @@ def set_adminrole(user_account_id):
         return False
     return True
 
+#"Poistaa" moderaattorioikeuden. Asettaa arvoksi siis NULL
 def delete_adminrole(user_account_id):
     try:
         sql="UPDATE user_account SET is_admin=NULL WHERE id=:user_account_id;"

@@ -18,12 +18,14 @@ CREATE TABLE category (
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
     thread_subject TEXT,
+    starting_message TEXT,
     created TIMESTAMP,
     category_id INTEGER,
     user_account_id INTEGER,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (user_account_id) REFERENCES user_account (id)
 );
+
 
 
 CREATE TABLE messages (

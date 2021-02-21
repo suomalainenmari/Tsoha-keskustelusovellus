@@ -1,0 +1,101 @@
+
+body{
+  background-color:#2C3531;
+  font-family: "Playfair Display", serif;
+  margin-left:23px;
+  
+}
+.inbody {
+  margin-left:230px;
+  background-color:#2C3531;
+  color:#D1E8E2;
+  padding:30px;
+  
+
+}
+
+.col-4{
+  background-color: #116466;
+  border-radius: .8em;
+}
+
+.listedthreads{
+  margin-left:auto;
+  margin-top:20px;
+}
+
+
+
+.home_header {
+    left:0;
+    text-align: center;
+    padding:10px;
+    background-color: #116466;
+    color: #D1E8E2;
+    border-radius: .8em;
+    
+}
+
+
+.sidebar {
+  height:100%;
+  font-family: "Playfair Display", serif;
+  width: 230px;
+  background-color: #116466;
+  position: fixed;
+  float:left;
+  top:30px;
+  left:0px;
+  padding: 8px 0;
+  border-radius: .8em;
+  font-size:20px;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: #D1E8E2;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #116466
+  ;
+  color:#D1E8E2;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #D9B08C;
+  color: #D1E8E2;
+}
+
+.topbar ul {
+  
+  font-family: "Playfair Display", serif;
+  list-style-type: none;
+  margin: 0;
+  left:0;
+  padding:50px 0px 0px 0px;
+  overflow: hidden;
+  background-color:  #116466;
+}
+
+.topbar li {
+  float: right;
+}
+
+.topbar li a {
+  font-size:20px;
+  display: block;
+  color: #D1E8E2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.topbar li a:hover:not(.active) {
+  background-color: #D9B08C;
+}

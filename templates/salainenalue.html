@@ -1,31 +1,88 @@
-<h1>Salainen alue</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/thread.css">
+    <title>Moderator space</title>
+    <!-- HR-elementin tyylittely-->
+    <style>
+
+hr.left {
+text-align: left;
+margin-left: 0;
+}
+    </style>
+</head>
+<body>
+    
+<!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
+
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+
+    {% endif %}
+    
+
+<h1>Moderator site</h1>
+<!--Sisältö näytetään vain moderointioikeuden omaaville-->
 {% if adminstatus %}
-Kaikki käyttäjät löytyvät täältä:
-<hr>
+All users are listed below:
+<hr class="left">
 <p>
 {%for user in users%}
 <p>
-<i>Käyttäjätunnus:</i> {{user[1]}}
+Username: <b>{{user[1]}}</b>
 <p>
-<i>Moderaattori: </i>{{user[2]}}
+Moderator status: <b>{{user[2]}}</b>
 {% if user[2]==None %}
 
 <form action="/salainenalue" method="post">
 <input type="hidden" value="{{user[0]}}" name="id">
-<input type="submit" name= "action" value="Lisää moderaattoriksi"> 
+<input type="submit" name= "action" value="Add as a moderator"> 
 </form> 
 {% endif %}
-<hr>
+<hr class="left">
 {% endfor %}
 {% if session.user_id==1 %}
-<a href="/supersalainenalue">Täältä käyttöoikeuksien poistoon</a> Tämän kentän näkee vaan käyttäjä admin (id=1)
+<!--Tämän kentän näkee vaan käyttäjä admin (id=1 tuotannossa ja id=5 paikallisesti)-->
+<a href="/supersalainenalue" style="color: #D1E8E2;">Remove admin-priviledges</a> 
 <br>
 {% endif %}
-<a href="/">Tästä pääset takaisin etusivulle</a> Tämän näkevät kaikki moderaattorit
+<!--Tämän näkevät kaikki moderaattorit-->
+<a href="/home" style="color: #D1E8E2;">Click here to return to homepage</a> 
 <br>
 {% else %}
-Ohops, täällä ei taida olla sinulle mitään..
-<a href="/">Tästä pääset takaisin etusivulle</a> Tämän näkevät ei-moderaattorit
+<!--Tämä näkyy perustason käyttäjille-->
+Oops.. Looks like there isn't anything for you in here!
+<a href="/home" style="color: #D1E8E2;">Click here to return to homepage</a> 
 {% endif %}
 
-
+</body>
+</html>

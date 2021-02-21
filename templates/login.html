@@ -1,24 +1,85 @@
-<form action="/login" method="post" onsubmit="return check (this)">
-Tunnus: <input type="text" name="username">
-<p>
-Salasana: <input type="password" name="password">
-<p>
-<input type="submit" value="Kirjaudu">
-</form>
-Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register"> tästä</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../static/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <!-- Ylävalikon ja nimibannerin asettelu-->
+    <div class="inbody">
 
-<script>
-    function check(form) {
-        if (form.username.value.length<1) {
-            alert("Syötä käyttäjätunnus");
-            return false;
+        <div class= "home_header">
+            <h1>Welcome to FactForum</h1>
+            {% if session.user_id %}
+                <p>You are logged in.</p>
+            {% endif %}
+        </div>
+    
+             <div class="topbar">
+            {% if session.user_id %}
+                <ul>
+                <li><a href="/logout">Logout</a></li>
+                <li><a href="/home">Home</a></li> 
+                <li><a href="/new">Create a thread</a></li>
+                {% if adminstatus %}
+                    <li><a href="/newcategory">Add a category</a></li>
+                    <li><a href="/salainenalue">Moderator site</a></li>
+                {% endif %}
+                </ul>
+            {% else %}
+                <ul>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/register">Register</a></li>    
+                <li><a href="/home">Home</a></li> 
+                </ul>
+                </div>
+        </div>
+{% endif %}
+<!--Lomake sisäänkirjautumista varten, mikäli käyttäjä jo kirjautunut, näytetään linkki kotisivulle -->
+{% if session.user_id %}
+<h2>You are already logged in</h2>
+<a href="/home" style="color: #D1E8E2;">homepage</a>
+{% else %}
+
+<div class="form">
+
+    <form action="/login" method="post" onsubmit="return check (this)">
+        Username: <input type="text" name="username">
+        <p>
+        Password: <input type="password" name="password">
+        <p>
+        <input type="submit" value="Log in">
+        </form>
+    
+    <p>
+    If you don't have an account, you can register <a href="/register" style="color: #D1E8E2;"> here</a>
+    <br>
+    <p>
+        Or you can always go back to <a href="/home" style="color: #D1E8E2;">homepage</a>
+
+    </p>
+</div>
+{% endif %}
+    <!--skripti joka tarkistaa syötteiden pituudet-->
+    <script>
+        function check(form) {
+            if (form.username.value.length<1) {
+                alert("Insert username");
+                return false;
+            }
+            if (form.password.value.length<1){
+                alert("Insert password");
+                return false;
+            }
+            return true;
         }
-        if (form.password.value.length<1){
-            alert("Syötä salasana");
-            return false;
-        }
-        return true;
-    }
+    
+    </script>
+    
+    
 
-</script>
-
+</body>
+</html>
