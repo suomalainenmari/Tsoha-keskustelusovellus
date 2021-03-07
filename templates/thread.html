@@ -126,6 +126,7 @@
             function check(form) {
               if (form.content.value.length<3){
                 alert("Message has to be a minimum of 3 characters")
+                  return false;
               }
                 if (form.content.value.length > 500) {
                     alert("Message is too long");
