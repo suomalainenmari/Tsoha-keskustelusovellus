@@ -124,12 +124,18 @@
     <!--Tarkistetaan lähetettävän viestin sisältö-->
         <script>
             function check(form) {
+              if (form.content.value.length<3){
+                alert("Message has to be a minimum of 3 characters")
+              }
                 if (form.content.value.length > 500) {
-                    alert("Viesti on liian pitkä");
+                    alert("Message is too long");
                     return false;
                 }
+                if (form.subject.value.length<3){
+                  alert("The heading has to be a minimum of 3 characteres")
+                }
                 if (form.subject.value.length>40){
-                    alert("Otsikko on liian pitkä");
+                    alert("The heading is too long");
                     return false;
                 }
                 return true;
