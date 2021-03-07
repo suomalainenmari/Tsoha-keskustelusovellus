@@ -65,7 +65,7 @@
        
         <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään muokkaus-kenttä ja -painike, josta viestiä voi muokata. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
         {% if thread_message[4]==session.user_id %}
-            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" method="post">
+            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" method="post" onsubmit="return check (this)">
                 Set message as:
                 <br>
                 <textarea name="viesti" rows="4" cols="60" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
@@ -97,4 +97,18 @@
         
     
 </body>
+<script>
+  function check(form) {
+      if (form.viesti.value.length > 500) {
+          alert("Message is too long");
+          return false;
+      }
+      if (form.viesti.value.length<3){
+        alert("Message has to be at least 3 characters")
+        return false;
+      }
+      return true;
+  }
+
+</script>
 </html>
