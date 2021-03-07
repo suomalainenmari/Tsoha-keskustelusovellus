@@ -6,41 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/login.css">
     <title>New thread</title>
-    <!--lomakkeen tyylittelyä-->
-    <style>
-        input[type=text], select {
-          width: 40%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          display: inline-block;
-          border: 1px solid #D1E8E2;
-          border-radius: 4px;
-          box-sizing: border-box;
-          color:#2C3531;
-          background-color: #D1E8E2;
-          font-size: 16;
-    
-        }
-        
-        input[type=submit] {
-          width: 40%;
-          
-          background-color: #D9B08C;;
-          color: #2C3531;
-          padding: 14px 20px;
-          margin: 8px 0;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 16;
-          
-        }
-        
-        input[type=submit]:hover {
-          background-color: #b39173;
-        }
-    
-        </style>
     
 </head>
 <body>
@@ -97,9 +62,9 @@
     Message (max 500 characters): <br>
     <textarea name="content" rows="3" cols="70" style="background-color: #D1E8E2;"style="color: #2C3531;"></textarea></textarea>
     <br>
-    <input type="submit" value="Create">
-    <br>
-    <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
+    <input type="submit" value="Create" class="button" style="font-size: large;">
+    <br><br>
+    <a href="/home" class="button"> Back to homepage</a>
     </form>
     </div>
     {% else %}
@@ -110,9 +75,21 @@
     <!--tarkistetaan viestin pituus-->
     <script>
         function check(form) {
+          if (form.subject.value.length > 50) {
+                alert("Thread heading is too long");
+                return false;
+            }
+            if (form.subject.value.length<3){
+              alert("Thread heading has to be at least 3 characters")
+              return false;
+            }
             if (form.content.value.length > 500) {
                 alert("Message is too long");
                 return false;
+            }
+            if (form.content.value.length<3){
+              alert("Message has to be at least 3 characters")
+              return false;
             }
             return true;
         }

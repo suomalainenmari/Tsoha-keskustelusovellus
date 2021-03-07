@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../../../static/login.css">
+  <title>Search results</title>
+</head>
+<body>
+  <!-- Ylävalikon ja nimibannerin asettelu-->
+  <div class="inbody">
+
+    <div class= "home_header">
+        <h1>Welcome to FactForum</h1>
+        {% if session.user_id %}
+            <p>You are logged in.</p>
+        {% endif %}
+    </div>
+
+         <div class="topbar">
+        {% if session.user_id %}
+            <ul>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/home">Home</a></li> 
+            <li><a href="/new">Create a thread</a></li>
+            {% if adminstatus %}
+                <li><a href="/newcategory">Add a category</a></li>
+                <li><a href="/salainenalue">Moderator site</a></li>
+            {% endif %}
+            </ul>
+        {% else %}
+            <ul>
+            <li><a href="/login">Log in</a></li>
+            <li><a href="/register">Register</a></li>    
+            <li><a href="/home">Home</a></li> 
+            </ul>
+            </div>
+    </div>
+
+{% endif %}
+  <h1>Search results</h1>
+
+  <h4>The item you searched came up in the original post of following threads:</h4>
+  {% if searchresults_threads_subject %}
+  {% for searchresults_threads_sub in searchresults_threads_subject %}
+  <div class="starting_thread">
+  <p>Category: {{searchresults_threads_sub[4]}}</p>
+  <p>Subject: {{searchresults_threads_sub[1]}}</p>
+  <p>Message: {{searchresults_threads_sub[2]}}</p>
+  <a href="/{{searchresults_threads_sub[5]}}/{{searchresults_threads_sub[0]}}" style="color: #D1E8E2;" class="button">Open thread</a>
+</div>
+<br>
+  {% endfor %}
+  {% endif %}
+
+  {% if searchresults_threads %}
+  {% for searchresults_thread in searchresults_threads %}
+  <div class="starting_thread">
+    <p>Category: {{searchresults_thread[4]}}</p>
+    <p>Subject: {{searchresults_thread[1]}}</p>
+    <p>Message: {{searchresults_thread[2]}}</p>
+    <a href="/{{searchresults_thread[5]}}/{{searchresults_thread[0]}}" style="color: #D1E8E2;" class="button">Open thread</a>  
+
+  </div>
+  <br>
+  {% endfor %}
+  {% endif %}
+  
+  <h4>The item you searched came up in following messages:</h4>
+  {% if searchresults_messages %}
+  {% for searchresults_message in searchresults_messages %}
+  <div class="starting_thread">
+  <p>Category: {{searchresults_message[5]}}</p>
+  <p>Subject: {{searchresults_message[1]}}</p>
+  <p>Message: {{searchresults_message[2]}}</p>
+  <a href="/{{searchresults_message[6]}}/{{searchresults_message[4]}}" style="color: #D1E8E2;" class="button">Open thread</a>
+</div>
+  <br>
+
+  {% endfor %}
+  {% else %}
+  {% endif %}
+  {% if searchresults_messages_subject %}
+  {% for searchresults_messages_sub in searchresults_messages_subject %}
+   <div class="starting_thread">
+  <p>Category: {{searchresults_messages_sub[5]}}</p>
+  <p>Subject: {{searchresults_messages_sub[1]}}</p>
+  <p>Message: {{searchresults_messages_sub[2]}}</p>
+  <a href="/{{searchresults_messages_sub[6]}}/{{searchresults_messages_sub[4]}}" style="color: #D1E8E2;"class="button">Open thread</a>
+</div>
+  <br>
+  <hr>
+  {% endfor %}
+  {% endif %}
+
+  <a href="/home" class="button"> Back to homepage</a>
+  
+</body>
+</html>

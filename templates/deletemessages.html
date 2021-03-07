@@ -39,13 +39,18 @@
         </div>
     
     {% endif %}
-
+                <h1 style="color: #D9B08C;">You are here to delete a message from the below thread</h1>
                 <h2>{{category_name}}</h2>
     <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
-        <h3>{{ starting_thread[1] }}</h3>
+         <div class="starting_thread">
+      <h3>{{ starting_thread[1] }}</h3>
     
         {{ starting_thread[2] }}<br>
-        Sent by:{{ starting_thread[4] }}
+        <p style="font-size:smaller">Sent by: {{ starting_thread[4] }}</p>
+        <p style="font-size: smaller;">Thread created: {{ starting_thread[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+    
+      </div>   
+      <h3>Comments:</h3>
         <hr>
         {% for thread_message in thread_messages %}
         <b> {{thread_message[0]}} </b>
@@ -60,23 +65,35 @@
        
         <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään  delete-painike, josta viestin voi poistaa. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
         {% if thread_message[4]==session.user_id %}
-            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" method="post">
+            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" method="post" onsubmit= "return check (this)">
                 <input type="hidden" value="{{thread_message[2]}}" name="message_id">
-                <input type="submit" name= "action" value="Delete message">
+                <input type="submit" name= "action" value="Delete message" class="button" style="font-size:large;">
             </form>
             <br>
             <!--Myös näytetään linkki missä pääsee muokkaamaan viestiä (mikäli on itse sen lähettänyt)-->
             <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" style="color: #D1E8E2;">Modify your message here</a>
-        {% endif %}
+            {% else %}
+            {% if adminstatus %}
+            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" method="post" onsubmit= "return check (this)">
+              <input type="hidden" value="{{thread_message[2]}}" name="message_id">
+              <input type="submit" name= "action" value="Delete message" class="button" style="font-size:large;">
+            </form>
+            <br>
+            {% else%}
+           <p style="color: #D9B08C;">You don't have the priviledges to delete messages from this thread</p>
+       
+            {% endif %}
+        
+            {% endif %}
         <hr>
 
         {% endfor %}
       
         
            
-                    <a href="/home" style="color: #D1E8E2;"> Takaisin etusivulle</a>
-                    <br>
-                    <a href="/{{starting_thread[6]}}" style="color: #D1E8E2;">Palaa edelliselle sivulle</a>
+                    <a href="/home" class="button"> Back to homepage</a>
+                    <br><br>
+                    <a href="/{{starting_thread[6]}}" class="button">Go back</a>
                    
            
                
@@ -85,4 +102,15 @@
         
     
 </body>
+
+<script>
+  function check() {
+  if (confirm("Are you sure you want to delete your message? Deleted messages cannot be restored")){
+    return true
+  }else {
+    return false
+  }
+  }
+
+</script>
 </html>

@@ -51,31 +51,35 @@
         <!--Sisältö näytetään vaan user id:lle 1, eli admin tunnuksella olevalle-->
 <h1>Super user site</h1>
 {% if session.user_id==1 %}
-<hr class="left">
+All users are listed below:
+<hr>
 <p>
 {%for user in users%}
-<p>
-Username: <b>{{user[1]}}</b>
-<p>
-Moderator status: <b>{{user[2]}}</b>
-{% if user[2]!=None %}
+<div class="starting_thread">
 
-<!--Omaa käyttöoikeutta ei adminkaan voi poistaa jottei vahinkoja satu-->
-{% if user[0]!=1 %}
-<form action="/supersalainenalue" method="post">
-    <input type="hidden" value="{{user[0]}}" name="id">
-    <input type="submit" name= "action" value="Remove moderator status"> 
-    </form>  
+    Username: <b>{{user[1]}}</b>
+    <p>
+    Moderator status: <b>{{user[2]}}</b>
+    {% if user[2]!=None %}
+    
+    <!--Omaa käyttöoikeutta ei adminkaan voi poistaa jottei vahinkoja satu-->
+    {% if user[0]!=1 %}
+    <form action="/supersalainenalue" method="post">
+        <input type="hidden" value="{{user[0]}}" name="id">
+        <input type="submit" name= "action" value="Remove moderator status" class="button" style="font-size: large;"> 
+        </form>  
+    
+    {% endif %}
+    {% endif %}
 
-{% endif %}
-{% endif %}
-<hr class="left">
-{% endfor %}
-<a href="/salainenalue" style="color: #D1E8E2;">Click here to go back to moderator site</a>
+</div>
 <br>
-<a href="/" style="color: #D1E8E2;">Click here to go back to homepage</a>
+{% endfor %}
+<a href="/salainenalue" class="button">Click here to go back to moderator site</a>
+<br><br>
+<a href="/" class="button">Click here to go back to homepage</a>
 {% else %}
 <!--Ei adminille näytettävä sisältö-->
-Oops.. It looks like there isn't anything for you here!<br>
-<a href="/home" style="color: #D1E8E2;">Click here to go back to homepage</a> 
+Oops.. It looks like there isn't anything for you here!<br><br>
+<a href="/home" class="button">Click here to go back to homepage</a> 
 {% endif %}

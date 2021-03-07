@@ -39,7 +39,7 @@
         </div>
     
     {% endif %}
-    <h1 style="color: #D9B08C;">You are here to modify a message from the thread below</h1>
+    <h1 style="color: #D9B08C;">You are here to modify the starting message of a thread below</h1>
                 <h2>{{category_name}}</h2>
       <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
       <div class="starting_thread">
@@ -48,6 +48,19 @@
         {{ starting_thread[2] }}<br>
         <p style="font-size:smaller">Sent by: {{ starting_thread[4] }}</p>
         <p style="font-size: smaller;">Thread created: {{ starting_thread[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+        {% if starting_thread[5]==session.user_id %}
+        <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify_thread/{{starting_thread[5]}}" method="post">
+          Set thread message as:
+          <br>
+          <textarea name="viesti" rows="4" cols="60" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+          <br>
+          <input type="hidden" value="{{starting_thread[1]}}" name="thread_id">
+          <input type="submit" name= "action" value="Modify thread" class="button" style="font-size: large;">
+      </form>
+      {% else%}
+        <p style="color: #D9B08C;">You don't have the priviledges to modify this thread</p>
+       
+      {% endif %}
     
       </div>
       <h3>Comments:</h3>
@@ -60,26 +73,7 @@
         Sent by: {{ thread_message[3] }}
         <p>
         Sent at: {{ thread_message[5].strftime("%Y-%m-%d %H:%M:%S") }}
-        <p>
-
-       
-        <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään muokkaus-kenttä ja -painike, josta viestiä voi muokata. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
-        {% if thread_message[4]==session.user_id %}
-            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" method="post">
-                Set message as:
-                <br>
-                <textarea name="viesti" rows="4" cols="60" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
-                <br>
-                <input type="hidden" value="{{thread_message[2]}}" name="message_id">
-                <input type="submit" name= "action" value="Modify message" class="button" style="font-size: large;">
-            </form>
-            <br>
-            <!--Myös näytetään linkki missä pääsee poistamaan viestin (mikäli on itse sen lähettänyt)-->
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" class="button">Delete your message here</a>
-            {% else%}
-        <p style="color: #D9B08C;">You don't have the priviledges to modify messages in this thread</p>
-       
-            {% endif %}
+        <p>        
         <hr>
 
         {% endfor %}
@@ -89,12 +83,7 @@
                     <a href="/home" class="button"> Back to homepage</a>
                     <br><br>
                     <a href="/{{starting_thread[6]}}" class="button">Go back</a>
-                   
-           
-               
-     
-    
-        
+
     
 </body>
 </html>

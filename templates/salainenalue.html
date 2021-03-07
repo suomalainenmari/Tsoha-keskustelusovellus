@@ -54,34 +54,41 @@ margin-left: 0;
 <!--Sisältö näytetään vain moderointioikeuden omaaville-->
 {% if adminstatus %}
 All users are listed below:
-<hr class="left">
-<p>
-{%for user in users%}
-<p>
-Username: <b>{{user[1]}}</b>
-<p>
-Moderator status: <b>{{user[2]}}</b>
-{% if user[2]==None %}
+<hr>
 
-<form action="/salainenalue" method="post">
-<input type="hidden" value="{{user[0]}}" name="id">
-<input type="submit" name= "action" value="Add as a moderator"> 
-</form> 
-{% endif %}
-<hr class="left">
-{% endfor %}
+  <p>
+    {%for user in users%}
+    <div class="starting_thread">
+
+        Username: <b>{{user[1]}}</b>
+        <p>
+        Moderator status: <b>{{user[2]}}</b>
+        {% if user[2]==None %}
+        
+        <form action="/salainenalue" method="post">
+        <input type="hidden" value="{{user[0]}}" name="id">
+        <input type="submit" name= "action" value="Add as a moderator" class="button" style="font-size: large;"> 
+        </form> 
+        {% endif %}
+    </div>
+    <br>
+   
+    {% endfor %}
+
+
+
 {% if session.user_id==1 %}
 <!--Tämän kentän näkee vaan käyttäjä admin (id=1 tuotannossa ja id=5 paikallisesti)-->
-<a href="/supersalainenalue" style="color: #D1E8E2;">Remove admin-priviledges</a> 
-<br>
+<a href="/supersalainenalue" class="button">Remove admin-priviledges</a> 
+<br><br>
 {% endif %}
 <!--Tämän näkevät kaikki moderaattorit-->
-<a href="/home" style="color: #D1E8E2;">Click here to return to homepage</a> 
+<a href="/home" class="button">Click here to return to homepage</a> 
 <br>
 {% else %}
 <!--Tämä näkyy perustason käyttäjille-->
-Oops.. Looks like there isn't anything for you in here!
-<a href="/home" style="color: #D1E8E2;">Click here to return to homepage</a> 
+Oops.. Looks like there isn't anything for you in here!<br><br>
+<a href="/home" class="button">Click here to return to homepage</a> 
 {% endif %}
 
 </body>

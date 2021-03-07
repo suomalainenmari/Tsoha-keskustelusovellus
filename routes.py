@@ -6,7 +6,9 @@ import messages,users,category,threads
 #Homepage routing
 @app.route("/home")
 def home():
-    list=threads.get_list()
+    lista=threads.get_list()
+    #Display only 5 most recently created threads
+    list=lista[0:5]
     aiheet=category.get_category()
     onkoadmin=users.get_adminrole()
     return render_template("index.html", count=len(list),threads=list, categories=aiheet, adminstatus=onkoadmin) 
@@ -59,7 +61,25 @@ def deletemessage(category_id,thread_id,user_account_id):
         if messages.delete_message(message_id):
             return redirect(url_for('thread', category_id=category_id, thread_id=thread_id))
         else:
-            return render_template("error.html", message="Failed to respond to a thread. Please try again later.")
+            return render_template("error.html", message="Failed to delete a message. Please try again later.")
+
+#Route to delete a thread
+@app.route("/<int:category_id>/<int:thread_id>/delete_thread/<int:user_account_id>", methods=["GET", "POST"])
+def deletethread(category_id, thread_id, user_account_id):
+  onkoadmin=users.get_adminrole()
+  aiheen_nimi=category.get_category_name(category_id)
+  aloitus_threadi=threads.get_thread(thread_id)
+  threadin_viestit=messages.get_thread_messages(thread_id)
+  if request.method=="GET":
+    return render_template("deletethreads.html", adminstatus=onkoadmin, category_name=aiheen_nimi[0],starting_thread=aloitus_threadi,thread_messages=threadin_viestit, user_account_id=user_account_id )
+  if request.method=="POST":
+    thread_id=request.form["thread_id"]
+    if threads.delete_thread(thread_id):
+      return redirect(url_for('aiheet', category_id=category_id))
+    else:
+      return render_template("error.html", message="Failed to delete a thread. Please try again later.")
+
+  
 
 #Route to modify a message
 @app.route("/<int:category_id>/<int:thread_id>/modify/<int:user_account_id>", methods=["GET","POST"])
@@ -76,7 +96,24 @@ def modifymessage(category_id,thread_id,user_account_id):
         if messages.modify_message(message_content,message_id):
             return redirect(url_for('thread', category_id=category_id, thread_id=thread_id))
         else:
-            return render_template("error.html", message="Failed to respond to a thread. Please try again later.")
+            return render_template("error.html", message="Failed to modify a message. Please try again later.")
+
+#Route to modify a thread
+@app.route("/<int:category_id>/<int:thread_id>/modify_thread/<int:user_account_id>", methods=["GET","POST"])
+def modifythread(category_id,thread_id,user_account_id):
+    onkoadmin=users.get_adminrole()
+    aiheen_nimi=category.get_category_name(category_id)
+    aloitus_threadi=threads.get_thread(thread_id)
+    threadin_viestit=messages.get_thread_messages(thread_id)
+    if request.method=="GET":
+        return render_template("modifythreads.html", adminstatus=onkoadmin, category_name=aiheen_nimi[0],starting_thread=aloitus_threadi,thread_messages=threadin_viestit, user_account_id=user_account_id )
+    if request.method=="POST":
+        thread=request.form["thread_id"]
+        thread_content=request.form["viesti"]
+        if threads.modify_thread(thread_content,thread_id):
+            return redirect(url_for('thread', category_id=category_id, thread_id=thread_id))
+        else:
+            return render_template("error.html", message="Failed to modify a thread. Please try again later.")
 
 #Route to creating a new thread
 @app.route("/new")
@@ -86,8 +123,17 @@ def new():
     return render_template("new.html", categories=aiheet, adminstatus=onkoadmin)
 
 #Route to searchresults
-#@app.route("/searchresults")
-#def searchresult():
+@app.route("/searchresults", methods=["GET"])
+def searchresult():
+  onkoadmin=users.get_adminrole()
+  content=request.args["content"]
+  searchresults_messages=messages.searchmessages(content)
+  searchresults_messages_subject=messages.searchmessages_subject(content)
+  searchresults_threads=threads.searchthreads(content)
+  searchresults_threads_subject=threads.searchthreads_subject(content)
+  return render_template ("searchresults.html", adminstatus=onkoadmin, searchresults_messages=searchresults_messages, searchresults_threads=searchresults_threads, searchresults_threads_subject=searchresults_threads_subject, searchresults_messages_subject=searchresults_messages_subject)
+  
+    
 
 
 

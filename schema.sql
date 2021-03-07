@@ -36,7 +36,8 @@ CREATE TABLE messages (
     thread_id INTEGER,
     category_id INTEGER,
     user_account_id INTEGER,
-    FOREIGN KEY (thread_id) REFERENCES threads(id),
+    FOREIGN KEY (thread_id) REFERENCES threads(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (user_account_id) REFERENCES user_account(id)
 );
+

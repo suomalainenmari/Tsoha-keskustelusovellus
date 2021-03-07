@@ -54,3 +54,16 @@ def send(subject, content,category_id,thread_id):
     db.session.execute(sql, {"subject":subject,"content":content, "user_id":user_id,"thread_id":thread_id,"category_id":category_id})
     db.session.commit()
     return True
+
+def searchmessages (content):
+  sql= "SELECT m.id, m.messages_subject, m.content, m.sent_at, m.thread_id, c.category_name, c.id from messages M, category C where M.content LIKE :content AND m.category_id=c.id"
+  result= db.session.execute(sql, {"content":"%"+content+"%"})
+  return result.fetchall()
+
+def searchmessages_subject(content):
+  sql= "SELECT m.id, m.messages_subject, m.content, m.sent_at, m.thread_id, c.category_name, c.id from messages M, category C where M.messages_subject LIKE :content AND m.category_id=c.id"
+  result= db.session.execute(sql, {"content":"%"+content+"%"})
+  return result.fetchall()
+
+
+

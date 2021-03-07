@@ -8,25 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../static/login.css">
     <title>New category</title>
     <!--Lomakkeen tyylittelyä-->
-    <style>
-        input[type=submit] {
-         width: 40%;
-         
-         background-color: #D9B08C;;
-         color: #2C3531;
-         padding: 14px 20px;
-         margin: 8px 0;
-         border: none;
-         border-radius: 4px;
-         cursor: pointer;
-         font-size: 16;
-         
-       }
-   
-       input[type=submit]:hover {
-         background-color: #b39173;
-       }
-   </style>
+    
 </head>
 <body>
     <!-- Ylävalikon ja nimibannerin asettelu-->
@@ -67,9 +49,9 @@
         <h3>Add a new category</h3>
         Category name: <br>
         
-        <textarea name="aihe" rows="1" cols="70" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
+        <textarea name="aihe" rows="2" cols="50" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
         <br>
-        <input type="submit" value="Add category">
+        <input type="submit" value="Add category" class="button" style="font-size: large;">
         <p>
         <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
         </form>
@@ -83,11 +65,15 @@
     <!--Tarkistetaan kategorian otsikon pituus-->
         <script>
             function check(form) {
-                if (form.aihe.value.length > 100) {
-                    alert("Otsikko on liian pitkä");
+                if (form.aihe.value.length > 50) {
+                    alert("Category name is too long");
                     return false;
-                return true;
-            }
+                }
+                if (form.aihe.value.length<3){
+                  alert("Category name must be at least 3 characters long")
+                  return false;
+                }
+            return true;
         }
         
         </script>

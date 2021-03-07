@@ -8,6 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/thread.css">
     <title>Error</title>
+    <style>
+      .button {
+  font: bold 14px;
+  font-family: "Playfair Display", serif;
+  text-decoration: none;
+  background-color: #116466;
+  color: #D1E8E2;
+  padding: 3px 6px 3px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+    </style>
 </head>
 <body>
     <!-- Ylävalikon ja nimibannerin asettelu-->
@@ -42,8 +57,8 @@
     
     {% endif %}
 <!--Parametrina saatu virheviesti renderöidään ja jätetään linkki etusivulle palaamiseen-->
-    Error: {{message}}
-    <a href="/home"style="color: #D1E8E2;"> Back to homepage</a>
+    Error: {{message}} <br><br>
+    <a href="/home"style="color: #D1E8E2;" class="button"> Back to homepage</a>
 
 
     

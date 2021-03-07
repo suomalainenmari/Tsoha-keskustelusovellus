@@ -43,13 +43,29 @@
     
     
     <h2>{{category_name}}</h2>
-        <div class="starting_thread">
+    <div class= "starting_thread">
+        
         <h3>{{ starting_thread[1] }}</h3>
     
         {{ starting_thread[2] }}<br>
-        Sent by:{{ starting_thread[4] }}
-        <hr>
-    </div>
+        <p style="font-size:smaller">Sent by: {{ starting_thread[4] }}</p>
+        <p style="font-size: smaller;">Thread created: {{ starting_thread[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+        {% if starting_thread[5]==session.user_id %}
+        <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete_thread/{{starting_thread[5]}}" class="button">Delete your thread here</a>
+        <br><br>
+        <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify_thread/{{starting_thread[5]}}" class="button">Modify your thread here</a>
+        {% else %}
+        {% if adminstatus %}
+        <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete_thread/{{starting_thread[5]}}" class="button">Delete this thread here</a>
+        <br><br>
+
+        {% endif %}
+        {% endif %}
+
+      </div>
+        
+    <h3>Comments:</h3>
+    <hr>
         {% for thread_message in thread_messages %}
         <b> {{thread_message[0]}} </b>
         <p>
@@ -61,10 +77,15 @@
         <p>
         <!--Jos viesti on oma tekemä näkee linkit viestin muokkaukseen tai poistoon-->
         {% if thread_message[4]==session.user_id %}
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" style="color: #D1E8E2;">Delete your message here</a>
-            <br>
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" style="color: #D1E8E2;">Modify your message here</a>
+            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" class="button">Delete your message here</a>
+            <br><br>
+            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" class="button">Modify your message here</a>
+          {% else %}
+          {% if adminstatus %}
+          <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" class="button">Delete this message here</a>
+          <br><br>
 
+          {% endif %}
             {% endif %}
         <hr>
 
@@ -84,13 +105,16 @@
                     Message (max 500 char.): <br>
                     <textarea name="content" rows="3" cols="40"></textarea>
                     <br>
-                    <input type="submit" name="action" value="Comment">
+                    <input type="submit" name="action" value="Comment" class="button" style="font-size: large;" >
                     </form>
-                    <a href="/home" style="color: #D1E8E2;"> Takaisin etusivulle</a>
                     <br>
-                    <a href="/{{starting_thread[6]}}" style="color: #D1E8E2;">Palaa edelliselle sivulle</a>
+                    <a href="/home" class="button"> Back to homepage</a>
+                    <br>
+                    <br>
+                    <a href="/{{starting_thread[6]}}" class="button">Go back</a>
                     {% else %}
                     <h3 style="text-align: center;">You need to be logged in to comment</h3>
+                    <br>
                     {% endif %}
                 
                 </div>

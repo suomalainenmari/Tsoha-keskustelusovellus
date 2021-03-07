@@ -45,16 +45,21 @@
     <!--Kyseessä olevan kategorian nimi otsikkona ja kaikki viestiketjut jotka kuuluvat kyseiseen kategoriaan listattuna alla-->
     <hr>
     {% for category_thread in category_threads %}
-    <b>{{category_thread[1]}}</b> 
-    <p>
-    {{ category_thread[2] }}
-    <p>
-    <b>Sent by: </b> {{ category_thread[4] }}
-    <p>
-    <b>Sent at: </b> {{ category_thread[6].strftime("%Y-%m-%d %H:%M:%S") }}
-    <p>
-    <a href="/{{category_thread[0]}}/{{category_thread[3]}}" style="color: #D1E8E2;">Open thread</a>
-    <hr>
+    <div class="starting_thread">
+      <b>{{category_thread[1]}}</b> 
+      <p>
+      {{ category_thread[2] }}
+      <p>
+      <b>Sent by: </b> {{ category_thread[4] }}
+      <p>
+      <b>Sent at: </b> {{ category_thread[6].strftime("%Y-%m-%d %H:%M:%S") }}
+      <p>
+      <a href="/{{category_thread[0]}}/{{category_thread[3]}}" class="button">Open thread</a>
+      
+
+    </div>
+    <br>
+
     {% endfor %}
 
     {% if session.user_id %}
@@ -66,22 +71,27 @@
         <select name="categories" id="categories">
             <option value="{{category_name}}">{{category_name}}</option>
         </select>
-        <br>
+        <br> <br>
         Thread heading:<br>
          <textarea name="subject" rows="1" cols="70" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
-        <br>
+        <br><br>
         Message (max 500 characters): <br>
         <textarea name="content" rows="3" cols="70" style="background-color: #D1E8E2;"style="color: #2C3531;"></textarea></textarea>
         <br>
-        <input type="submit" value="Create">
+        <input type="submit" value="Create" class="button" style= "font-size: large;">
         <br>
-        <a href="/home" style="color: #D1E8E2;"> Back to homepage</a>
+        <br>
+        <a href="/home" class="button" style= "font-size: large;" style= "margin: 60px;"> Back to homepage</a>
+
         </form>
-        </div>
+        
         {% else %}
         <!--Jos käyttäjä ei ole kirjautunut, ei viestiä voi lähettää, vaan kerrotaan että tulee olla kirjautunut-->
         <h3>You need to be logged in to create a thread</h3>
+        <a href="/home" class="button" style= "font-size: large;" style= "margin: 60px;"> Back to homepage</a>
+
         {% endif %}
+      </div>
         
         <!--Tarkistetaan alla skriptissä ettei viestin sisältö ole liian pitkä-->
         <script>

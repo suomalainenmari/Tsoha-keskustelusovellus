@@ -24,7 +24,21 @@ body{
   margin-top:20px;
 }
 
-
+.button {
+  font: bold 14px;
+  font-family: "Playfair Display", serif;
+  text-decoration: none;
+  background-color: #116466;
+  color: #D1E8E2;
+  padding: 3px 6px 3px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+.button:hover:not(.active) {
+  background-color: #D9B08C;
+}
 
 .home_header {
     left:0;
@@ -36,6 +50,16 @@ body{
     
 }
 
+.starting_thread{
+  text-align: left;
+  font-size:20px;
+  border-radius: 5px;
+  background-color: #116466;
+  padding:20px;
+  left:auto;
+  
+  
+}
 
 .sidebar {
   height:100%;
@@ -49,6 +73,7 @@ body{
   padding: 8px 0;
   border-radius: .8em;
   font-size:20px;
+  text-align: left;
 }
 
 /* Sidebar links */

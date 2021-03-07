@@ -61,27 +61,35 @@
             <hr>
 
             {% for thread in threads %}
-            {{thread[0]}}
-            <p>
+            <div class = "starting_thread">
+              <u>
+              <a href="/{{thread[5]}}" style="color: #D1E8E2;" >{{thread[0]}}</a>
+            </u>
+              <p>
             {{ thread[2] }}
-            <p>
+            <p><hr>
             {{thread[3]}}
-            <p>
+          
+              <p style="font-size: smaller;">
             Sent:  {{ thread[1] }}
-            <p>
-            Sent at: {{ thread[4].strftime("%Y-%m-%d %H:%M:%S") }}
-            <p>
-            <hr>
+            </p>
+            <p style="font-size: smaller;">
+              Sent at: {{ thread[4].strftime("%Y-%m-%d %H:%M:%S") }}
+            </p>
+            <a href="/{{thread[5]}}/{{thread[6]}}" class="button" style="color: #D1E8E2;">Open thread</a>
+            
+            </div>
+            <br>
             {% endfor %}
         </div>
 <!--Viestien etsimistä varten oleva formi-->
         <div class="col-4">
         <h3> Search for messages</h3>
-        <form action="/searchresults" method="post">
+        <form action="/searchresults" method="get" onsubmit="return check (this)">
             <br>
-            <textarea name="viesti" rows="2" cols="50" style="background-color: #D1E8E2;" style="color: #2C3531;">Hakutoiminnallisuus ei vielä käytössä</textarea>
+            <textarea name="content" rows="2" cols="50" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
             <br>
-            <input type="submit" name= "action" value="Search">
+            <input type="submit" name= "action" value="Search" class="button">
         </form>
         </div>
 </div>
@@ -90,6 +98,16 @@
 
 
 </body>
+<script>
+  function check(form) {
+      if (form.content.value.length <2) {
+          alert("Search criteria has to be a minimum of 2 characters");
+          return false;
+      }
+      return true;
+  }
+
+</script>
 </html>
 
 

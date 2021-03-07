@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../../../static/login.css">
-    <title>Modify your message</title>
+    <title>Delete your message</title>
 </head>
 <body>
     <!-- Ylävalikon ja nimibannerin asettelu-->
@@ -39,17 +39,38 @@
         </div>
     
     {% endif %}
-    <h1 style="color: #D9B08C;">You are here to modify a message from the thread below</h1>
+    <h1 style="color: #D9B08C;">You are here to delete the thread below</h1>
+
                 <h2>{{category_name}}</h2>
-      <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
-      <div class="starting_thread">
+    <!--Kategorian nimi otsikkona ja viestiketjun aloitusviesti ja sen alla viestiketjuun kuuluvat viestit listattu-->
+         <div class="starting_thread">
       <h3>{{ starting_thread[1] }}</h3>
     
         {{ starting_thread[2] }}<br>
         <p style="font-size:smaller">Sent by: {{ starting_thread[4] }}</p>
         <p style="font-size: smaller;">Thread created: {{ starting_thread[3].strftime("%Y-%m-%d %H:%M:%S") }}</p>
+        {% if starting_thread[5]==session.user_id %}
+        <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete_thread/{{starting_thread[5]}}" method="post" onsubmit="return check (this)">
+            <input type="hidden" value="{{starting_thread[0]}}" name="thread_id">
+            <input type="submit" name= "action" value="Delete thread" class="button" style="font-size:large;">
+        </form>
+        <br>
+        <!--Myös näytetään linkki missä pääsee muokkaamaan viestiä (mikäli on itse sen lähettänyt)-->
+        <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/modifythread" style="color: #D1E8E2;">Modify your thread here</a>
+        {% else %}
+        {% if adminstatus %}
+        <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete_thread/{{starting_thread[5]}}" method="post" onsubmit= "return check (this)">
+          <input type="hidden" value="{{starting_thread[0]}}" name="thread_id">
+          <input type="submit" name= "action" value="Delete thread" class="button" style="font-size:large;">
+        </form>
+        <br>
+        {% else%}
+        <p style="color: #D9B08C;">You don't have the priviledges to delete this thread</p>
+        {% endif %}
+        
+    {% endif %}
     
-      </div>
+      </div>   
       <h3>Comments:</h3>
         <hr>
         {% for thread_message in thread_messages %}
@@ -61,35 +82,26 @@
         <p>
         Sent at: {{ thread_message[5].strftime("%Y-%m-%d %H:%M:%S") }}
         <p>
-
-       
-        <!--Mikäli nykyinen käyttäjä on sama kun viestin lähettänyt henkilö, näytetään muokkaus-kenttä ja -painike, josta viestiä voi muokata. Tästä kun klikataan ohjautuu viestiketjun sivulle-->
-        {% if thread_message[4]==session.user_id %}
-            <form action="/{{starting_thread[6]}}/{{starting_thread[0]}}/modify/{{thread_message[4]}}" method="post">
-                Set message as:
-                <br>
-                <textarea name="viesti" rows="4" cols="60" style="background-color: #D1E8E2;" style="color: #2C3531;"></textarea>
-                <br>
-                <input type="hidden" value="{{thread_message[2]}}" name="message_id">
-                <input type="submit" name= "action" value="Modify message" class="button" style="font-size: large;">
-            </form>
-            <br>
-            <!--Myös näytetään linkki missä pääsee poistamaan viestin (mikäli on itse sen lähettänyt)-->
-            <a href="/{{starting_thread[6]}}/{{starting_thread[0]}}/delete/{{thread_message[4]}}" class="button">Delete your message here</a>
-            {% else%}
-        <p style="color: #D9B08C;">You don't have the priviledges to modify messages in this thread</p>
-       
-            {% endif %}
         <hr>
 
         {% endfor %}
       
         
-            
+           
                     <a href="/home" class="button"> Back to homepage</a>
                     <br><br>
                     <a href="/{{starting_thread[6]}}" class="button">Go back</a>
                    
+                    <script>
+                      function check() {
+                      if (confirm("Deleting your thread deletes all the comments too. Are you sure you want to delete your thread?")){
+                        return true
+                      }else {
+                        return false
+                      }
+                      }
+                  
+                  </script>
            
                
      

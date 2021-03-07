@@ -19,6 +19,7 @@
         </div>
     
              <div class="topbar">
+               
             {% if session.user_id %}
                 <ul>
                 <li><a href="/logout">Logout</a></li>
@@ -51,14 +52,14 @@
         <p>
         Password: <input type="password" name="password">
         <p>
-        <input type="submit" value="Log in">
+        <input type="submit" value="Log in" class="button" style="font-size: large;">
         </form>
     
     <p>
-    If you don't have an account, you can register <a href="/register" style="color: #D1E8E2;"> here</a>
+    If you don't have an account, you can register <a href="/register" class="button" style="color: #D1E8E2;"> here</a>
     <br>
     <p>
-        Or you can always go back to <a href="/home" style="color: #D1E8E2;">homepage</a>
+        Or you can always go back to <a href="/home" class="button" style="color: #D1E8E2;">homepage</a>
 
     </p>
 </div>

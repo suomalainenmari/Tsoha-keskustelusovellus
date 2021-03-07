@@ -16,6 +16,20 @@ body{
       
       
 }
+.wrap{
+  margin-left:auto;
+  margin-top:20px;
+}
+.starting_thread{
+  text-align: left;
+  font-size:20px;
+  border-radius: 5px;
+  background-color: #116466;
+  padding:20px;
+  left:auto;
+  
+  
+}
 
 
   .inbody {
@@ -69,3 +83,18 @@ body{
     background-color: #D9B08C;
   }
   
+  .button {
+    font: bold 14px;
+    font-family: "Playfair Display", serif;
+    text-decoration: none;
+    background-color: #116466;
+    color: #D1E8E2;
+    padding: 3px 6px 3px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+  }
+  .button:hover:not(.active) {
+    background-color: #D9B08C;
+  }
